@@ -1,0 +1,30 @@
+version: "3.7"
+services:
+  rethinkdb:
+    container_name: realtime-database
+    image: rethinkdb
+    ports:
+      - "28015:28015"
+      - "29015:29015"
+      - "8080:8080"
+    volumes:
+      - database-data:/data
+    command: rethinkdb --bind all -d /data
+  backend:
+    container_name: realtime-backend
+    restart: unless-stopped
+    image: "node:14"
+    depends_on:
+      - rethinkdb
+    ports:
+      - "80:80"
+    user: "root"
+    working_dir: /home/node/app
+    volumes:
+      - ./:/home/node/app
+    command: >
+      sh -c "cd src && npm install && npm start"
+    env_file:
+      - .env
+volumes:
+  database-data:
