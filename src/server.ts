@@ -5,8 +5,6 @@ import {wrapResponse} from './functions/response-wrapper';
 import bodyParser from 'body-parser';
 import * as path from "path";
 
-
-
 export default function startServer(): void {
 
     /**
@@ -16,7 +14,7 @@ export default function startServer(): void {
     app.use(cors());
     app.use(bodyParser.json());
 
-    const PORT: string | number = process.env.PORT || 3000;
+    const PORT: string | number = process.env.PORT || 80;
     const router = express.Router();
 
     app.use(router);
@@ -25,7 +23,9 @@ export default function startServer(): void {
     /**
      * Routes
      */
-    app.get('/api/v1', (req, res) => res.send(wrapResponse(true)));
+    app.get('/api/v1', (req, res) => res.send(wrapResponse(true, {
+        systemId: 'dhbw-realtime-database'
+    })));
 
 
     // handle every other route with index.html, which loads Angular
