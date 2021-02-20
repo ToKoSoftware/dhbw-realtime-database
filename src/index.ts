@@ -5,4 +5,4 @@ import {bootstrap} from "./functions/bootstrap.func";
 
 Vars.loggy = new Loggy();
 bootstrap();
-startServer();
+
