@@ -46,8 +46,11 @@ export async function bootstrap() {
     }
 
     Vars.r = r;
-    schedule('* * * * * *', async function() {
-        const v = getRandomArbitrary(6000, 6969);
+    let last: number = 1;
+    schedule('* * * * * *', async () => {
+        // get random stock price
+        const v = getRandomNumberInRange(last <= 20 ? last : last - 20, last + 50);
+        last = v;
         Vars.loggy.log(`🚀🚀🚀 $GME: ${v} 🚀🚀🚀`)
         let result = await r
             .db("stocks")
@@ -62,6 +65,6 @@ export async function bootstrap() {
     startServer();
 }
 
-function getRandomArbitrary(min: number, max: number) {
-    return ((Math.random() * (max - min)) + min).toFixed(2);
+function getRandomNumberInRange(min: number, max: number): number {
+    return Number(((Math.random() * (max - min)) + min).toFixed(2));
 }
