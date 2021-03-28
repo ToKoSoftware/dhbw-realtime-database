@@ -13,12 +13,6 @@ export async function bootstrap() {
             port: 28015,
         }
     }
-    const connection: Connection = await r.connect({
-        server: {
-            host: 'localhost',
-            port: 28015,
-        }
-    });
     await r.connectPool(config);
     const listOfDatabases =
         await r
